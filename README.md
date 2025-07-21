@@ -12,7 +12,7 @@ The goal of this project is to predict whether an individual is at risk of devel
 
 ## 📦 Dataset
 
-- **Source**: [(https://drive.google.com/drive/folders/1SioMV4Q4MpHl0xvFInrRDvXv29fBgJ4m)]
+- **Source**: [Risk Prediction dataset](https://drive.google.com/drive/folders/1SioMV4Q4MpHl0xvFInrRDvXv29fBgJ4m)
 - **Target Variable**: `TenYearCHD`
 - **Features Used**: Age, sex, systolic BP, diastolic BP, cholesterol levels, smoking status, diabetes, etc.
 
