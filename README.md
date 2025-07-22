@@ -22,7 +22,8 @@ The goal of this project is to predict whether an individual is at risk of devel
 
 | Task | Tools/Libraries |
 |------|-----------------|
-| Data Analysis | `Pandas`, `NumPy`, `Matplotlib`, `Seaborn`, `Plotly` |
+| Data Analysis | `Pandas`, `NumPy` |
+| Visualization | `Matplotlib`, `Seaborn`, `Plotly` |
 | Modeling | `Scikit-learn`, `Logistic Regression`, `Random Forest`, `XGBoost`, `Decision Tree` |
 | Tuning | `GridSearchCV` |
 | Explainability | `SHAP` |
@@ -51,38 +52,42 @@ The goal of this project is to predict whether an individual is at risk of devel
 
 ## ✅ Model Comparison
 
-| Model              | Accuracy | Precision | Recall | F1-Score | ROC AUC |
-|-------------------|----------|-----------|--------|----------|---------|
-| Logistic Regression | 69.1%   | 0.27      | 0.69   | 0.39     | 0.69    |
-| Random Forest       | 74.4%   | 0.27      | 0.46   | 0.34     | 0.62    |
-| XGBoost             | 74.2%   | 0.25      | 0.43   | 0.32     | 0.61    |
-| **Decision Tree (Tuned)** ✅ | **67.4%**   | **0.23**      | **0.55**   | **0.32**     | **0.62**    |
+| Model                     | Accuracy | Precision | Recall | F1 Score | ROC AUC |
+|--------------------------|----------|-----------|--------|----------|---------|
+| Logistic Regression       | 65.5%    | 62.5%     | 68.9%  | 65.6%    | 65.6%   |
+| Logistic Regression (Tuned) | 64.8% | 61.2%     | 72.0%  | 66.2%    | 65.2%   |
+| Decision Tree             | 68.5%    | 68.9%     | 61.8%  | 65.2%    | 68.2%   |
+| Decision Tree (Tuned)     | 73.6%    | 73.8%     | 69.3%  | 71.5%    | 73.4%   |
+| Random Forest (Tuned)     | 84.2%    | 81.3%     | 86.9%  | 84.0%    | 84.3%   |
+| XGBoost                   | 80.8%    | 79.1%     | 81.3%  | 80.2%    | 80.8%   |
+| **XGBoost (Tuned)** ✅     | **88.5%**| **87.6%** | **88.5%** | **88.1%** | **88.5%** |
 
 ---
 
-## 💡 Final Model: Decision Tree (Tuned)
+## 💡 Final Model: Tuned XGBoost
 
-- Chosen for its **high recall**, which is critical in medical applications where it's more important to **flag potential CHD cases**, even at the cost of a few false positives.
-- Offers **model interpretability** through feature importance and SHAP plots, ideal for healthcare explainability.
+The tuned XGBoost classifier was selected as the final model due to its outstanding performance across all evaluation metrics. It provided the best balance of precision and recall, minimized false negatives (which is crucial in healthcare), and showed excellent generalization with a testing accuracy of **88.5%** and F1 score of **88.1%**.
 
 ---
+
 
 ## 📊 SHAP Explainability
 
-Using SHAP, the most important features influencing the model's decisions were:
+To interpret the model's predictions, **SHAP (SHapley Additive Explanations)** was used. It revealed the most influential features contributing to CHD risk:
 
 - **Age**
-- **Cigarettes Per Day**
-- **Systolic BP**
+- **Education**
+- **Cigarettes per Day**
+- **heartrate**
+- **Systolic Blood Pressure (sysBP)**
 
-Visualized using an interactive Plotly bar chart.
+These were visualized using an interactive Plotly bar chart to enhance model transparency and explainability.
 
 ---
 
+
 ## 📌 Key Takeaways
 
-- Decision Tree showed the best recall, ensuring more at-risk patients were identified.
-- SHAP values highlighted top risk factors like age, systolic BP, and diabetes.
-- The project showed how explainable ML can be applied to healthcare for actionable insights.
+This project demonstrates how machine learning can be effectively applied to healthcare data to predict CHD risk. The tuned XGBoost model delivered the best performance, with high recall and model interpretability via SHAP. Crucial clinical features such as age, systolic blood pressure, glucose levels, and smoking habits were identified as key predictors of CHD. With both accuracy and explainability, the final model is suitable for real-world medical decision support systems.
 
 ---
