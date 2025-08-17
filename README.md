@@ -50,7 +50,7 @@ The goal of this project is to predict whether an individual is at risk of devel
 ```
 ---
 
-## ✅ Model 
+## 🛠️ Models Trained
 
 | Model               | Description |
 |---------------------|-------------------|
