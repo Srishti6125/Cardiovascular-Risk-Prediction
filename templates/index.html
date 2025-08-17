@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardiovascular Risk Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>❤️ Cardiovascular Risk Predictor</h1>
+        <form action="/predict" method="post">
+            <input type="number" name="age" placeholder="Age" required>
+            <input type="number" step="any" name="education" placeholder="Education" required>
+            <select name="sex" required>
+                <option value="0">Female</option>
+                <option value="1">Male</option>
+            </select>
+            <select name="is_smoking" required>
+                <option value="0">Non-Smoker</option>
+                <option value="1">Smoker</option>
+            </select>
+            <input type="number" step="any" name="cigsPerDay" placeholder="Cigs per day" required>
+            <input type="number" step="any" name="BPMeds" placeholder="BP Meds (0/1)" required>
+            <input type="number" step="any" name="prevalentStroke" placeholder="Stroke (0/1)" required>
+            <input type="number" step="any" name="prevalentHyp" placeholder="Hypertension (0/1)" required>
+            <input type="number" step="any" name="diabetes" placeholder="Diabetes (0/1)" required>
+            <input type="number" step="any" name="totChol" placeholder="Total Cholesterol" required>
+            <input type="number" step="any" name="sysBP" placeholder="Systolic BP" required>
+            <input type="number" step="any" name="diaBP" placeholder="Diastolic BP" required>
+            <input type="number" step="any" name="BMI" placeholder="BMI" required>
+            <input type="number" step="any" name="heartRate" placeholder="Heart Rate" required>
+            <input type="number" step="any" name="glucose" placeholder="Glucose" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>{{ result }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
