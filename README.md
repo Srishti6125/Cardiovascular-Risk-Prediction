@@ -50,23 +50,35 @@ The goal of this project is to predict whether an individual is at risk of devel
 ```
 ---
 
+## ✅ Model 
+
+| Model               | Description |
+|---------------------|-------------------|
+| Logistic Regression | Simple, fast, and interpretable baseline; decent calibration but limited nonlinearity handling. |
+| Decision Tree       | Captures nonlinear rules and interactions; prone to overfitting without pruning. |
+| Random Forest       | Strong, robust ensemble with good generalization; reduces variance and handles imbalance well. |
+| XGBoost             | High-performance gradient boosting; best precision–recall/AUC after tuning in this project. |
+
+---
+
 ## ✅ Model Comparison
 
-| Model                     | Accuracy | Precision | Recall | F1 Score | ROC AUC |
-|--------------------------|----------|-----------|--------|----------|---------|
-| Logistic Regression       | 65.5%    | 62.5%     | 68.9%  | 65.6%    | 65.6%   |
-| Logistic Regression (Tuned) | 64.8% | 61.2%     | 72.0%  | 66.2%    | 65.2%   |
-| Decision Tree             | 68.5%    | 68.9%     | 61.8%  | 65.2%    | 68.2%   |
-| Decision Tree (Tuned)     | 73.6%    | 73.8%     | 69.3%  | 71.5%    | 73.4%   |
-| Random Forest (Tuned)     | 84.2%    | 81.3%     | 86.9%  | 84.0%    | 84.3%   |
-| XGBoost                   | 80.8%    | 79.1%     | 81.3%  | 80.2%    | 80.8%   |
-| **XGBoost (Tuned)** ✅     | **88.5%**| **87.6%** | **88.5%** | **88.1%** | **88.5%** |
+| Model                       | Accuracy | Precision | Recall | F1 Score | ROC AUC |
+|-----------------------------|----------|-----------|--------|----------|---------|
+| Logistic Regression         | 64.9%    | 61.9%     | 70.9%  | 66.1%    | 65.5%   |
+| Logistic Regression (Tuned) | 65.3%    | 62.2%     | 71.1%  | 66.3%    | 65.5%   |
+| Decision Tree               | 70.5%    | 72.9%     | 78.5%  | 75.6%    | 73.0%   |
+| Decision Tree (Tuned)       | 72.0%    | 73.3%     | 84.9%  | 78.7%    | 73.0%   |
+| Random Forest               | 77.2%    | 73.3%     | 82.2%  | 77.5%    | 77.4%   |
+| Random Forest (Tuned)       | 81.8%    | 78.6%     | 84.9%  | 81.6%    | 81.9%   |
+| XGBoost                     | 76.9%    | 74.1%     | 79.5%  | 76.7%    | 77.0%   |
+| **XGBoost (Tuned)** ✅     | **88.8%**| **88.3%** | **88.2%** | **88.3%** | **88.8%** |
 
 ---
 
 ## 💡 Final Model: Tuned XGBoost
 
-The tuned XGBoost classifier was selected as the final model due to its outstanding performance across all evaluation metrics. It provided the best balance of precision and recall, minimized false negatives (which is crucial in healthcare), and showed excellent generalization with a testing accuracy of **88.5%** and F1 score of **88.1%**.
+The tuned XGBoost classifier was selected as the final model due to its outstanding performance across all evaluation metrics. It provided the best balance of precision and recall, minimized false negatives (which is crucial in healthcare), and showed excellent generalization with a testing accuracy of **88.8%** and Recall of **88.2%**.
 
 ---
 
@@ -76,10 +88,10 @@ The tuned XGBoost classifier was selected as the final model due to its outstand
 To interpret the model's predictions, **SHAP (SHapley Additive Explanations)** was used. It revealed the most influential features contributing to CHD risk:
 
 - **Age**
-- **Education**
-- **Cigarettes per Day**
+- **cigsperday**
 - **heartrate**
-- **Systolic Blood Pressure (sysBP)**
+- **glucose**
+- **pulse_pressure**
 
 These were visualized using an interactive Plotly bar chart to enhance model transparency and explainability.
 
@@ -88,6 +100,6 @@ These were visualized using an interactive Plotly bar chart to enhance model tra
 
 ## 📌 Key Takeaways
 
-This project demonstrates how machine learning can be effectively applied to healthcare data to predict CHD risk. The tuned XGBoost model delivered the best performance, with high recall and model interpretability via SHAP. Crucial clinical features such as age, systolic blood pressure, glucose levels, and smoking habits were identified as key predictors of CHD. With both accuracy and explainability, the final model is suitable for real-world medical decision support systems.
+This project demonstrates how machine learning can be effectively applied to healthcare data to predict CHD risk. The tuned XGBoost model delivered the best performance, with high recall and model interpretability via SHAP. Crucial clinical features such as age, cigsperday, heartrate, glucose and pulse_pressure were identified as key predictors of CHD. With both accuracy and explainability, the final model is suitable for real-world medical decision support systems.
 
 ---
