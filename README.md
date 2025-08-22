@@ -1,33 +1,40 @@
-# 🩺 CHD Prediction Using Machine Learning
+# 🩺 CHD Prediction Using Machine Learning + Flask Web App
 
-> Predicting Coronary Heart Disease (CHD) using supervised learning models, hyperparameter tuning, and model explainability techniques like SHAP.
+> Predicting Coronary Heart Disease (CHD) using supervised learning models, hyperparameter tuning, model explainability (SHAP), and a deployed Flask web application.  
+
+🌐 **Live App**: [Try it here!](https://cardiovascular-risk-prediction-ylna.onrender.com/)
 
 ---
 
 ## 🧠 Problem Statement
 
-The goal of this project is to predict whether an individual is at risk of developing Coronary Heart Disease (CHD) in the next 10 years based on health and lifestyle factors. Accurate early prediction can help initiate timely medical interventions and improve quality of life.
+The goal of this project is to predict whether an individual is at risk of developing Coronary Heart Disease (CHD) in the next 10 years based on health and lifestyle factors.  
+Accurate early prediction can help initiate timely medical interventions and improve quality of life.
 
 ---
 
 ## 📦 Dataset
 
-- **Source**: [Risk Prediction dataset](https://drive.google.com/drive/folders/1SioMV4Q4MpHl0xvFInrRDvXv29fBgJ4m)
-- **Target Variable**: `TenYearCHD`
-- **Features Used**: `age`, `education `, `sex`, `is_smoking`, `cigsPerDay`, `BPMeds`, `prevalentStroke`, `prevalentHyp`, `diabetes`, `totChol`, `sysBP`, `diaBP`, `BMI`, `heartRate`, `glucose`
+- **Source**: [Risk Prediction dataset](https://drive.google.com/drive/folders/1SioMV4Q4MpHl0xvFInrRDvXv29fBgJ4m)  
+- **Target Variable**: `TenYearCHD`  
+- **Features Used**:  
+  `age`, `education`, `sex`, `is_smoking`, `cigsPerDay`, `BPMeds`,  
+  `prevalentStroke`, `prevalentHyp`, `diabetes`, `totChol`, `sysBP`,  
+  `diaBP`, `BMI`, `heartRate`, `glucose`  
 
 ---
 
 ## 🔧 Tech Stack
 
-| Task | Tools/Libraries |
-|------|-----------------|
-| Data Analysis | `Pandas`, `NumPy` |
-| Visualization | `Matplotlib`, `Seaborn`, `Plotly` |
-| Modeling | `Scikit-learn`, `Logistic Regression`, `Random Forest`, `XGBoost`, `Decision Tree` |
-| Tuning | `GridSearchCV` |
-| Explainability | `SHAP` |
-| IDE | Google Colab / Jupyter Notebook |
+| Task            | Tools/Libraries |
+|-----------------|-----------------|
+| Data Analysis   | `Pandas`, `NumPy` |
+| Visualization   | `Matplotlib`, `Seaborn`, `Plotly` |
+| Modeling        | `Scikit-learn`, `Logistic Regression`, `Random Forest`, `XGBoost`, `Decision Tree` |
+| Tuning          | `GridSearchCV` |
+| Explainability  | `SHAP` |
+| Deployment      | `Flask`, `Render` |
+| IDE             | Google Colab / Jupyter Notebook |
 
 ---
 
@@ -38,30 +45,20 @@ The goal of this project is to predict whether an individual is at risk of devel
 🧼 Handle Missing Values
 📊 Exploratory Data Analysis (EDA)
 🧪 Feature Selection and Scaling
-🤖 ML Model Implementation:
-   - Logistic Regression
-   - Decision Tree
-   - Random Forest
-   - XGBoost
+🤖 ML Model Implementation (Logistic Regression, Decision Tree, Random Forest, XGBoost)
 🎯 Model Evaluation (Precision, Recall, F1, ROC AUC)
 🔍 Hyperparameter Tuning (GridSearchCV)
 🧠 SHAP Explainability and Visualization (Plotly)
-📈 Final Model Selection & Interpretation'
+📈 Final Model Selection & Interpretation
+🌐 Flask App Deployment on Render
 ```
----
-
-## 🛠️ Models Trained
-
-| Model               | Description |
-|---------------------|-------------------|
-| Logistic Regression | Simple, fast, and interpretable baseline; decent calibration but limited nonlinearity handling. |
-| Decision Tree       | Captures nonlinear rules and interactions; prone to overfitting without pruning. |
-| Random Forest       | Strong, robust ensemble with good generalization; reduces variance and handles imbalance well. |
-| XGBoost             | High-performance gradient boosting; best precision–recall/AUC after tuning in this project. |
 
 ---
 
-## ✅ Model Comparison
+
+---
+
+## 🛠️ Models Trained & Comparison
 
 | Model                       | Accuracy | Precision | Recall | F1 Score | ROC AUC |
 |-----------------------------|----------|-----------|--------|----------|---------|
@@ -78,28 +75,43 @@ The goal of this project is to predict whether an individual is at risk of devel
 
 ## 💡 Final Model: Tuned XGBoost
 
-The tuned XGBoost classifier was selected as the final model due to its outstanding performance across all evaluation metrics. It provided the best balance of precision and recall, minimized false negatives (which is crucial in healthcare), and showed excellent generalization with a testing accuracy of **88.8%** and Recall of **88.2%**.
+The tuned **XGBoost classifier** was selected as the final model due to its outstanding performance across all evaluation metrics.  
+It provided the best balance of **precision and recall**, minimized false negatives (critical in healthcare), and showed excellent generalization.  
+
+- ✅ **Accuracy**: 88.8%  
+- ✅ **Recall**: 88.2%  
 
 ---
-
 
 ## 📊 SHAP Explainability
 
-To interpret the model's predictions, **SHAP (SHapley Additive Explanations)** was used. It revealed the most influential features contributing to CHD risk:
+To interpret the model's predictions, **SHAP (SHapley Additive Explanations)** was used.  
+Top influential features:  
 
 - **Age**
-- **cigsperday**
-- **heartrate**
-- **glucose**
-- **pulse_pressure**
+- **Cigs per Day**
+- **Heart Rate**
+- **Glucose**
+- **Pulse Pressure**
 
-These were visualized using an interactive Plotly bar chart to enhance model transparency and explainability.
+Visualized using **interactive Plotly bar charts** for model transparency.  
 
 ---
 
+## 🌐 Flask Web App
+
+A user-friendly web interface was developed using **Flask** and deployed on **Render**.  
+The app allows users to input their health data and receive CHD risk predictions instantly.  
+
+👉 **Live Demo**: [Cardiovascular Risk Prediction App](https://cardiovascular-risk-prediction-ylna.onrender.com/)
+
+---
 
 ## 📌 Key Takeaways
 
-This project demonstrates how machine learning can be effectively applied to healthcare data to predict CHD risk. The tuned XGBoost model delivered the best performance, with high recall and model interpretability via SHAP. Crucial clinical features such as age, cigsperday, heartrate, glucose and pulse_pressure were identified as key predictors of CHD. With both accuracy and explainability, the final model is suitable for real-world medical decision support systems.
+- ML can effectively predict **10-year CHD risk** from health data.  
+- **XGBoost (tuned)** achieved the highest performance.  
+- **SHAP explainability** ensures transparency for healthcare use.  
+- A **Flask app** makes the model interactive and accessible.  
 
 ---
