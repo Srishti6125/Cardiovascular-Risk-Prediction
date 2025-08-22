@@ -1,44 +1,286 @@
+<!--index.html — HeartWise--> 
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardiovascular Risk Predictor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>❤️ Cardiovascular Risk Predictor</h1>
-        <form action="/predict" method="post">
-            <input type="number" name="age" placeholder="Age" required>
-            <input type="number" step="any" name="education" placeholder="Education" required>
-            <select name="sex" required>
-                <option value="0">Female</option>
-                <option value="1">Male</option>
-            </select>
-            <select name="is_smoking" required>
-                <option value="0">Non-Smoker</option>
-                <option value="1">Smoker</option>
-            </select>
-            <input type="number" step="any" name="cigsPerDay" placeholder="Cigs per day" required>
-            <input type="number" step="any" name="BPMeds" placeholder="BP Meds (0/1)" required>
-            <input type="number" step="any" name="prevalentStroke" placeholder="Stroke (0/1)" required>
-            <input type="number" step="any" name="prevalentHyp" placeholder="Hypertension (0/1)" required>
-            <input type="number" step="any" name="diabetes" placeholder="Diabetes (0/1)" required>
-            <input type="number" step="any" name="totChol" placeholder="Total Cholesterol" required>
-            <input type="number" step="any" name="sysBP" placeholder="Systolic BP" required>
-            <input type="number" step="any" name="diaBP" placeholder="Diastolic BP" required>
-            <input type="number" step="any" name="BMI" placeholder="BMI" required>
-            <input type="number" step="any" name="heartRate" placeholder="Heart Rate" required>
-            <input type="number" step="any" name="glucose" placeholder="Glucose" required>
-            <button type="submit">Predict</button>
-        </form>
 
-        {% if result %}
-        <div class="result">
-            <h2>{{ result }}</h2>
-        </div>
-        {% endif %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HeartWise — CVD Risk Prediction</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo">❤️ HeartWise</a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#predictor">Predictor</a></li>
+      </ul>
     </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-bar" id="home"></div>
+    <div class="hero-inner">
+      <div class="heart-wrapper">
+        <div class="heart-bg"></div>
+        <!-- Heart Image -->
+        <img src="{{ url_for('static', filename='img/heart.png') }}" alt="3D Heart" class="heart-img">
+        <!-- Sparkles -->
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+      </div>
+      <h3>Advanced Cardiovascular Risk Assessment</h3>
+      <p style="font-size: 17px; font-style: italic;">
+        Harness the power of AI to evaluate your heart health and receive tailored recommendations for a healthier lifestyle.
+      </p>
+
+      <div class="feature-cards">
+        <div class="fcard">
+          <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <h3>Precision Insights</h3>
+          <p>AI-driven analysis for accurate and personalized risk assessment.</p>
+        </div>
+        <div class="fcard">
+          <div class="icon"><i class="fa-solid fa-shield-heart"></i></div>
+          <h3>Personalized Advice</h3>
+          <p>Actionable lifestyle recommendations matched to your risk level.</p>
+        </div>
+        <div class="fcard">
+          <div class="icon"><i class="fa-solid fa-chart-simple"></i></div>
+          <h3>Comprehensive Metrics</h3>
+          <p>Analyze 10+ clinically relevant features in one view.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Predictor Section -->
+  <section id="predictor" class="predictor">
+    <main class="container">
+      <!-- Predictor Form -->
+      <form id="predict-form" class="card" action="/predict" method="POST">
+        <h2 style="text-align: center; font-size:35px; color:#406682">Cardiovascular Risk Predictor</h2>
+
+        <!-- Demographics -->
+        <div class="card">
+          <section class="section" id="demographics">
+            <div class="section-head">
+              <h2><i class="fa-solid fa-id-card-clip"></i> Demographics</h2>
+            </div>
+            <br>
+              <div class="grid">
+              <div class="field">
+                <label for="age">Age <span class="hint">years (18–100)</span></label>
+                <input id="age" name="age" type="number" min="18" max="100" step="1" required value="{{ filled.get('age', '') if filled else '' }}" />
+              </div>
+              <br>
+              <div class="field">
+                <label>Sex</label>
+                <div class="inline">
+                  <label class="radio">
+                    <input type="radio" name="sex" value="Male" required
+                      {{ 'checked' if filled and filled.get('sex')=='Male' else '' }}> Male
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="sex" value="Female"
+                      {{ 'checked' if filled and filled.get('sex')=='Female' else '' }}> Female
+                  </label>
+                </div>
+              </div>
+              <br>
+              <div class="field">
+                <label for="education">Education Level</label>
+                <select id="education" name="education" required class="styled-select">
+                  {% set edu = filled.get('education', '') if filled else '' %}
+                  <option value="" disabled {{ 'selected' if not edu else '' }}>-- Select Education Level --</option>
+                  <option value="Elementary" {{ 'selected' if edu=='Elementary' else '' }}>Elementary School</option>
+                  <option value="High School" {{ 'selected' if edu=='High School' else '' }}>High School</option>
+                  <option value="College" {{ 'selected' if edu=='College' else '' }}>Undergraduate (College)</option>
+                  <option value="Graduate" {{ 'selected' if edu=='Graduate' else '' }}>Postgraduate (Masters / PhD)</option>
+                </select>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Lifestyle Factors -->
+        <div class="card">
+          <section class="section" id="lifestyle">
+            <div class="section-head">
+              <h2><i class="fa-solid fa-smoking"></i> Lifestyle Factors</h2>
+            </div>
+            <br>
+            <div class="grid">
+              <div class="field">
+                <label for="is_smoking">Do you smoke?</label>
+                <div style="display: flex; gap: 1rem; align-items: center; margin-top: 5px;">
+                  <label>
+                    <input type="radio" name="is_smoking" value="1" required
+                      {% if filled and filled.get('is_smoking') == '1' %} checked {% endif %}> Yes
+                  </label>
+                  <label>
+                    <input type="radio" name="is_smoking" value="0" required
+                      {% if filled and filled.get('is_smoking') == '0' %} checked {% endif %}> No
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="cigsPerDay">Cigarettes per Day <span class="hint">(0–80)</span></label>
+                <input id="cigsPerDay" name="cigsPerDay" type="number" min="0" max="80" step="1"
+                      value="{{ (filled.cigsPerDay if filled) or '' }}">
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        <!-- Medical History -->
+        <div class="card">
+          <section class="section" id="medical-history">
+            <div class="section-head">
+              <h2><i class="fa-solid fa-notes-medical"></i> Medical History</h2>
+            </div>
+            <br>
+            <div class="field">
+              <label>History of Stroke ?</label>
+              <div class="inline">
+                <label class="radio">
+                  <input type="radio" name="prevalentStroke" value="1" {{ 'checked' if filled and filled.get('prevalentStroke')=='1' else '' }}> Yes
+                </label>
+                <label class="radio">
+                  <input type="radio" name="prevalentStroke" value="0" {{ 'checked' if filled and filled.get('prevalentStroke')=='0' else '' }}> No
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>History of Hypertension ?</label>
+              <div class="inline">
+                <label class="radio">
+                  <input type="radio" name="prevalentHyp" value="1" {{ 'checked' if filled and filled.get('prevalentHyp')=='1' else '' }}> Yes
+                </label>
+                <label class="radio">
+                  <input type="radio" name="prevalentHyp" value="0" {{ 'checked' if filled and filled.get('prevalentHyp')=='0' else '' }}> No
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Diabetes ?</label>
+              <div class="inline">
+                <label class="radio">
+                  <input type="radio" name="diabetes" value="1" {{ 'checked' if filled and filled.get('diabetes')=='1' else '' }}> Yes
+                </label>
+                <label class="radio">
+                  <input type="radio" name="diabetes" value="0" {{ 'checked' if filled and filled.get('diabetes')=='0' else '' }}> No
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Currently on BP Medications ?</label>
+              <div class="inline">
+                <label class="radio">
+                  <input type="radio" name="BPMeds" value="1" {{ 'checked' if filled and filled.get('BPMeds')=='1' else '' }}> Yes
+                </label>
+                <label class="radio">
+                  <input type="radio" name="BPMeds" value="0" {{ 'checked' if filled and filled.get('BPMeds')=='0' else '' }}> No
+                </label>
+              </div>
+            </div>
+
+          </section>
+        </div>
+
+        <!-- Lab Values & Measurements -->
+        <div class="card">
+          <section class="section" id="labs">
+            <div class="section-head">
+              <h2><i class="fa-solid fa-vials"></i> Lab Values & Measurements</h2>
+            </div>
+            <br>
+            <div class="grid">
+              <div class="field">
+                <label for="diaBP">Diastolic BP <span class="hint">(40–150)mmHg</span></label>
+                <input id="diaBP" name="diaBP" type="number" min="40" max="150" step="0.1" required
+                  value="{{ (filled.diaBP if filled) or '' }}" />
+              </div>
+
+              <div class="field">
+                <label for="sysBP">Systolic BP <span class="hint">(70–250)mmHg</span></label>
+                <input id="sysBP" name="sysBP" type="number" min="70" max="250" step="0.1" required
+                  value="{{ (filled.sysBP if filled) or '' }}" />
+              </div>
+
+              <div class="field">
+                <label for="totChol">Total Cholesterol <span class="hint">(100–400)mg/dL</span></label>
+                <input id="totChol" name="totChol" type="number" min="100" max="400" step="0.1" required value="{{ filled.get('totChol', '') if filled else '' }}" />
+              </div>
+
+              <div class="field">
+                <label for="glucose">Fasting Glucose <span class="hint">(50–400)mg/dL</span></label>
+                <input id="glucose" name="glucose" type="number" min="50" max="400" step="1" required
+                  value="{{ (filled.glucose if filled) or '' }}" />
+              </div>
+
+              <div class="field">
+                <label for="BMI">BMI <span class="hint">(10–50)kg/m²</span></label>
+                <input id="BMI" name="BMI" type="number" min="10" max="50" step="0.1" required
+                  value="{{ (filled.BMI if filled) or '' }}" />
+              </div>
+
+              <div class="field">
+                <label for="heartRate">Heart Rate <span class="hint">(40–200)bpm</span></label>
+                <input id="heartRate" name="heartRate" type="number" min="40" max="200" step="1" required
+                  value="{{ (filled.heartRate if filled) or '' }}" />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="actions">
+          <button type="submit" class="btn-primary">Predict Risk</button>
+        </div>
+
+        <!-- Prediction Result -->
+        <div id="result-container">
+          {% if prediction_text %}
+          <div class="result-combined">
+            <div class="pill {{ risk_level if risk_level else '' }}">
+              {{ risk_category or 'Result' }}
+            </div>
+            <h2>{{ prediction_text }}</h2>
+            <p><strong>Recommended Measures:</strong> {{ advice }}</p>
+          </div>
+          {% endif %}
+        </div>
+
+      </form>
+    </main>
+
+    <p class="disclaimer" style="padding-top: 2%; padding-bottom: 2%;">
+      Disclaimer: This tool is for educational purposes and does not replace professional medical advice.
+    </p>
+  </section>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
